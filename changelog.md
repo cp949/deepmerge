@@ -3,12 +3,13 @@
 - 보안: 반환 객체의 prototype 변조 차단 ([GHSA-gcqx-w48m-w2h4](https://github.com/advisories/GHSA-gcqx-w48m-w2h4)). target과 source의 열거 키에서 `__proto__`, `constructor`, `prototype`을 제외한다.
   - 동작 변경: 위 세 키는 일반 데이터여도 결과에서 빠진다. 예: `merge({}, { prototype: 1 })`은 `{}`를 반환한다.
 - `engines.node`를 `>=24.18.0`으로 올린다. `dist/*`는 ES2015 문법으로 빌드한다(기존 ES5).
+- README를 원본 링크만 남긴 소개로 교체 (`readme.md` → `README.md`)
 - `package.json`에 `types: "index.d.ts"`를 명시한다.
 - 의존성 정리 (`npm audit` 0건)
   - `is-mergeable-object`, `is-plain-object` 의존성 제거. 기본 병합 판정은 `index.js`에 직접 구현하고(동작 동일), `isPlainObject`는 테스트 헬퍼(`test/support/`)로 둔다.
   - 빌드: rollup 1 + 플러그인 → tsdown. 출력 경로(`dist/cjs.js`, `dist/umd.js`)와 `module.exports = deepmerge` 형태는 유지한다.
-  - 테스트: tape → `node:test`, jsmd → `test/readme.js`(acorn 기반), ts-node + TypeScript 2.2.2 → TypeScript 7 타입 검사
-  - `size` 스크립트: uglify-js → rolldown minifier
+  - 테스트: tape → `node:test`, ts-node + TypeScript 2.2.2 → TypeScript 7 타입 검사
+  - 제거: jsmd(README 예제 검사), uglify-js(`size` 스크립트)
 - CI: Travis 설정을 GitHub Actions로 교체. Node 24.18.0/24/26 테스트와 주 1회 `npm audit` 실행. Dependabot 추가
 
 # [4.3.1](https://github.com/TehShrike/deepmerge/releases/tag/v4.3.1)

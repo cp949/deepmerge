@@ -23,12 +23,9 @@
   "scripts": {
     "build": "tsdown",
     "test": "npm run build && node --test test/*.js && npm run test:typescript",
-    "test:typescript": "tsc -p test/tsconfig.json",
-    "size": "npm run build && node scripts/size.mjs"
+    "test:typescript": "tsc -p test/tsconfig.json"
   },
   "devDependencies": {
-    "acorn": "^8.19.0",
-    "rolldown": "^1.2.16",
     "tsdown": "^0.23.4",
     "typescript": "^7.0.2"
   },
