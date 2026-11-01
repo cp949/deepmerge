@@ -1,4 +1,4 @@
-# Unreleased
+# 4.3.2
 
 - 보안: 반환 객체의 prototype 변조 차단 ([GHSA-gcqx-w48m-w2h4](https://github.com/advisories/GHSA-gcqx-w48m-w2h4)). target과 source의 열거 키에서 `__proto__`, `constructor`, `prototype`을 제외한다.
   - 동작 변경: 위 세 키는 일반 데이터여도 결과에서 빠진다. 예: `merge({}, { prototype: 1 })`은 `{}`를 반환한다.
