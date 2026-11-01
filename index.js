@@ -1,4 +1,4 @@
-var defaultIsMergeableObject = require('is-mergeable-object')
+var defaultIsMergeableObject = require('./vendor/is-mergeable-object/index.js')
 
 function emptyTarget(val) {
 	return Array.isArray(val) ? [] : {}
@@ -32,8 +32,15 @@ function getEnumerableOwnPropertySymbols(target) {
 		: []
 }
 
+// prototype 변조에 쓰일 수 있는 키. target 형태(null prototype 등)와 무관하게 항상 제외한다.
+// GHSA-gcqx-w48m-w2h4
+var unsafeKeys = ['__proto__', 'constructor', 'prototype']
+
 function getKeys(target) {
-	return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target))
+	// target 복사와 source 병합이 모두 이 함수를 거치므로 한 곳에서 걸러낸다.
+	return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target)).filter(function(key) {
+		return unsafeKeys.indexOf(key) === -1
+	})
 }
 
 function propertyIsOnObject(object, property) {

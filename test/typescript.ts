@@ -1,4 +1,7 @@
-import * as merge from '../';
+// export = 선언의 표준 소비 형태
+import merge = require('../');
+// esModuleInterop 환경 소비자(번들러, 최신 TS)의 default import 형태
+import mergeDefault from '../';
 
 const x = {
 	foo: 'abc',
@@ -63,3 +66,8 @@ merged2 = merge(x, z, options2);
 merged3 = merge.all<{wat: number}>([x, y, z], options1);
 
 const merged4 = merge(x, y, options3);
+
+const merged5: { foo: string } = mergeDefault(x, y);
+const merged6 = mergeDefault.all<{ wat: number }>([ x, y, z ]);
+merged5.foo;
+merged6.wat;

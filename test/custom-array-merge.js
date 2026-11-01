@@ -1,11 +1,12 @@
 var merge = require('../')
-var test = require('tape')
+var test = require('node:test')
+var assert = require('node:assert')
 
 test('custom merge array', function(t) {
 	var mergeFunctionCalled = false
 	function overwriteMerge(target, source, options) {
 		mergeFunctionCalled = true
-		t.equal(options.arrayMerge, overwriteMerge)
+		assert.strictEqual(options.arrayMerge, overwriteMerge)
 
 		return source
 	}
@@ -23,9 +24,8 @@ test('custom merge array', function(t) {
 		someObject: { what: 'yes' },
 	}
 
-	t.ok(mergeFunctionCalled)
-	t.deepEqual(actual, expected)
-	t.end()
+	assert.ok(mergeFunctionCalled)
+	assert.deepStrictEqual(actual, expected)
 })
 
 test('merge top-level arrays', function(t) {
@@ -35,15 +35,14 @@ test('merge top-level arrays', function(t) {
 	var actual = merge([ 1, 2 ], [ 1, 2 ], { arrayMerge: overwriteMerge })
 	var expected = [ 1, 2 ]
 
-	t.deepEqual(actual, expected)
-	t.end()
+	assert.deepStrictEqual(actual, expected)
 })
 
 test('cloner function is available for merge functions to use', function(t) {
 	var customMergeWasCalled = false
 	function cloneMerge(target, source, options) {
 		customMergeWasCalled = true
-		t.ok(options.cloneUnlessOtherwiseSpecified, 'cloner function is available')
+		assert.ok(options.cloneUnlessOtherwiseSpecified, 'cloner function is available')
 		return target.concat(source).map(function(element) {
 			return options.cloneUnlessOtherwiseSpecified(element, options)
 		})
@@ -62,9 +61,8 @@ test('cloner function is available for merge functions to use', function(t) {
 		key2: [ 'four' ],
 	}
 
-	t.deepEqual(merge(target, src, { arrayMerge: cloneMerge }), expected)
-	t.ok(customMergeWasCalled)
-	t.ok(Array.isArray(merge(target, src).key1))
-	t.ok(Array.isArray(merge(target, src).key2))
-	t.end()
+	assert.deepStrictEqual(merge(target, src, { arrayMerge: cloneMerge }), expected)
+	assert.ok(customMergeWasCalled)
+	assert.ok(Array.isArray(merge(target, src).key1))
+	assert.ok(Array.isArray(merge(target, src).key2))
 })

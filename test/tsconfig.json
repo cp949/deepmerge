@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		// TS 7은 strict가 기본값이다. 이 테스트는 기존(TS 2.2, non-strict) 검사 기준을 유지한다.
+		// strict에서는 arrayMerge의 options 인자가 index.d.ts에서 선택값이라 TS18048이 난다.
+		"strict": false,
+		"noEmit": true,
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"target": "es2022",
+		"types": []
+	},
+	"files": [ "typescript.ts" ]
+}

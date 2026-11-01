@@ -1,5 +1,6 @@
 const merge = require(`..`)
-const test = require(`tape`)
+const test = require(`node:test`)
+const assert = require(`node:assert`)
 
 test(`isMergeableObject function copying object over object`, t => {
 	const src = { key: { isMergeable: false }, baz: `yes` }
@@ -13,9 +14,8 @@ test(`isMergeableObject function copying object over object`, t => {
 		isMergeableObject,
 	})
 
-	t.deepEqual(res, { key: { isMergeable: false }, baz: `yes` })
-	t.equal(res.key, src.key, `Object has the same identity and was not cloned`)
-	t.end()
+	assert.deepStrictEqual(res, { key: { isMergeable: false }, baz: `yes` })
+	assert.strictEqual(res.key, src.key, `Object has the same identity and was not cloned`)
 })
 
 test(`isMergeableObject function copying object over nothing`, t => {
@@ -30,13 +30,12 @@ test(`isMergeableObject function copying object over nothing`, t => {
 		isMergeableObject,
 	})
 
-	t.deepEqual(res, { key: { isMergeable: false, foo: `bar` }, baz: `yes` })
-	t.equal(res.key, src.key, `Object has the same identity and was not cloned`)
-	t.end()
+	assert.deepStrictEqual(res, { key: { isMergeable: false, foo: `bar` }, baz: `yes` })
+	assert.strictEqual(res.key, src.key, `Object has the same identity and was not cloned`)
 })
 
 test(`example from readme`, t => {
-	const { isPlainObject } = require(`is-plain-object`)
+	const { isPlainObject } = require(`../vendor/is-plain-object/is-plain-object.mjs`)
 
 	function SuperSpecial() {
 		this.special = `oh yeah man totally`
@@ -56,17 +55,16 @@ test(`example from readme`, t => {
 
 	const defaultOutput = merge(target, source)
 
-	t.equal(defaultOutput.someProperty.cool, `oh for sure`)
-	t.equal(defaultOutput.someProperty.special, `oh yeah man totally`)
-	t.equal(defaultOutput.someProperty instanceof SuperSpecial, false)
+	assert.strictEqual(defaultOutput.someProperty.cool, `oh for sure`)
+	assert.strictEqual(defaultOutput.someProperty.special, `oh yeah man totally`)
+	assert.strictEqual(defaultOutput.someProperty instanceof SuperSpecial, false)
 
 	const customMergeOutput = merge(target, source, {
 		isMergeableObject: isPlainObject,
 	})
 
-	t.equal(customMergeOutput.someProperty.cool, undefined)
-	t.equal(customMergeOutput.someProperty.special, `oh yeah man totally`)
-	t.equal(customMergeOutput.someProperty instanceof SuperSpecial, true)
+	assert.strictEqual(customMergeOutput.someProperty.cool, undefined)
+	assert.strictEqual(customMergeOutput.someProperty.special, `oh yeah man totally`)
+	assert.strictEqual(customMergeOutput.someProperty instanceof SuperSpecial, true)
 
-	t.end()
 })

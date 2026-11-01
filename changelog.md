@@ -1,3 +1,16 @@
+# Unreleased
+
+- 보안: 반환 객체의 prototype 변조 차단 ([GHSA-gcqx-w48m-w2h4](https://github.com/advisories/GHSA-gcqx-w48m-w2h4)). target과 source의 열거 키에서 `__proto__`, `constructor`, `prototype`을 제외한다.
+  - 동작 변경: 위 세 키는 일반 데이터여도 결과에서 빠진다. 예: `merge({}, { prototype: 1 })`은 `{}`를 반환한다.
+- `engines.node`를 `>=24.18.0`으로 올린다. `dist/*`는 ES2015 문법으로 빌드한다(기존 ES5).
+- `package.json`에 `types: "index.d.ts"`를 명시한다.
+- 의존성 정리 (`npm audit` 0건)
+  - `is-mergeable-object`(1.1.1), `is-plain-object`(5.1.0)를 npm 의존성 대신 `vendor/`에 복사한다. `is-plain-object`는 테스트 전용이며 배포물에서 제외한다.
+  - 빌드: rollup 1 + 플러그인 → tsdown. 출력 경로(`dist/cjs.js`, `dist/umd.js`)와 `module.exports = deepmerge` 형태는 유지한다.
+  - 테스트: tape → `node:test`, jsmd → `test/readme.js`(acorn 기반), ts-node + TypeScript 2.2.2 → TypeScript 7 타입 검사
+  - `size` 스크립트: uglify-js → rolldown minifier
+- CI: Travis 설정을 GitHub Actions로 교체. Node 24.18.0/24/26 테스트와 주 1회 `npm audit` 실행. Dependabot 추가
+
 # [4.3.1](https://github.com/TehShrike/deepmerge/releases/tag/v4.3.1)
 
 - Fix type definition for arrayMerge options.  [#239](https://github.com/TehShrike/deepmerge/pull/239)

@@ -1,33 +1,29 @@
 var merge = require('../')
-var test = require('tape')
+var test = require('node:test')
+var assert = require('node:assert')
 
 test('throw error if first argument is not an array', function(t) {
-	t.throws(merge.all.bind(null, { example: true }, { another: '2' }), Error)
-	t.end()
+	assert.throws(merge.all.bind(null, { example: true }, { another: '2' }), Error)
 })
 
 test('return an empty object if first argument is an array with no elements', function(t) {
-	t.deepEqual(merge.all([]), {})
-	t.end()
+	assert.deepStrictEqual(merge.all([]), {})
 })
 
 test('Work just fine if first argument is an array with least than two elements', function(t) {
 	var actual = merge.all([{ example: true }])
 	var expected = { example: true }
-	t.deepEqual(actual, expected)
-	t.end()
+	assert.deepStrictEqual(actual, expected)
 })
 
 test('execute correctly if options object were not passed', function(t) {
 	var arrayToMerge = [{ example: true }, { another: '123' }]
-	t.doesNotThrow(merge.all.bind(null, arrayToMerge))
-	t.end()
+	assert.doesNotThrow(merge.all.bind(null, arrayToMerge))
 })
 
 test('execute correctly if options object were passed', function(t) {
 	var arrayToMerge = [{ example: true }, { another: '123' }]
-	t.doesNotThrow(merge.all.bind(null, arrayToMerge, { clone: true }))
-	t.end()
+	assert.doesNotThrow(merge.all.bind(null, arrayToMerge, { clone: true }))
 })
 
 test('invoke merge on every item in array should result with all props', function(t) {
@@ -38,11 +34,10 @@ test('invoke merge on every item in array should result with all props', functio
 
 	var mergedObject = merge.all([ firstObject, secondObject, thirdObject, fourthObject ])
 
-	t.ok(mergedObject.first === true)
-	t.ok(mergedObject.second === false)
-	t.ok(mergedObject.third === 123)
-	t.ok(mergedObject.fourth === 'some string')
-	t.end()
+	assert.ok(mergedObject.first === true)
+	assert.ok(mergedObject.second === false)
+	assert.ok(mergedObject.third === 123)
+	assert.ok(mergedObject.fourth === 'some string')
 })
 
 test('invoke merge on every item in array with clone should clone all elements', function(t) {
@@ -52,11 +47,10 @@ test('invoke merge on every item in array with clone should clone all elements',
 
 	var mergedWithClone = merge.all([ firstObject, secondObject, thirdObject ], { clone: true })
 
-	t.notEqual(mergedWithClone.a, firstObject.a)
-	t.notEqual(mergedWithClone.b, secondObject.b)
-	t.notEqual(mergedWithClone.c, thirdObject.c)
+	assert.notStrictEqual(mergedWithClone.a, firstObject.a)
+	assert.notStrictEqual(mergedWithClone.b, secondObject.b)
+	assert.notStrictEqual(mergedWithClone.c, thirdObject.c)
 
-	t.end()
 })
 
 test('invoke merge on every item in array clone=false should not clone all elements', function(t) {
@@ -66,11 +60,10 @@ test('invoke merge on every item in array clone=false should not clone all eleme
 
 	var mergedWithoutClone = merge.all([ firstObject, secondObject, thirdObject ], { clone: false })
 
-	t.equal(mergedWithoutClone.a, firstObject.a)
-	t.equal(mergedWithoutClone.b, secondObject.b)
-	t.equal(mergedWithoutClone.c, thirdObject.c)
+	assert.strictEqual(mergedWithoutClone.a, firstObject.a)
+	assert.strictEqual(mergedWithoutClone.b, secondObject.b)
+	assert.strictEqual(mergedWithoutClone.c, thirdObject.c)
 
-	t.end()
 })
 
 
@@ -81,9 +74,8 @@ test('invoke merge on every item in array without clone should clone all element
 
 	var mergedWithoutClone = merge.all([ firstObject, secondObject, thirdObject ])
 
-	t.notEqual(mergedWithoutClone.a, firstObject.a)
-	t.notEqual(mergedWithoutClone.b, secondObject.b)
-	t.notEqual(mergedWithoutClone.c, thirdObject.c)
+	assert.notStrictEqual(mergedWithoutClone.a, firstObject.a)
+	assert.notStrictEqual(mergedWithoutClone.b, secondObject.b)
+	assert.notStrictEqual(mergedWithoutClone.c, thirdObject.c)
 
-	t.end()
 })
