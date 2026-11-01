@@ -1,7 +1,10 @@
 var merge = require('../')
 var test = require('node:test')
 var assert = require('node:assert')
-var isMergeableObject = require('../vendor/is-mergeable-object/index.js')
+// 이 테스트에서는 '객체면 병합 가능'이라는 최소 판정만 필요하다.
+function isMergeableObject(value) {
+	return !!value && typeof value === 'object'
+}
 
 test('merging objects with own __proto__', function(t) {
 	var user = {}

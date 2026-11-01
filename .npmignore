@@ -2,6 +2,5 @@ test/
 .eslintcache
 .gitignore
 .github/
-vendor/is-plain-object/
 scripts/
 tsdown.config.mts

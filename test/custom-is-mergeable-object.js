@@ -35,7 +35,7 @@ test(`isMergeableObject function copying object over nothing`, t => {
 })
 
 test(`example from readme`, t => {
-	const { isPlainObject } = require(`../vendor/is-plain-object/is-plain-object.mjs`)
+	const { isPlainObject } = require(`./support/is-plain-object.js`)
 
 	function SuperSpecial() {
 		this.special = `oh yeah man totally`

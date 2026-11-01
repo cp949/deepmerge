@@ -85,11 +85,11 @@ test('README 예제 코드의 기대값 주석이 실제 결과와 같다', func
 	}
 
 	// README의 require('./')가 저장소 루트(package.json main)를 가리키도록 한다.
-	// is-plain-object는 npm 의존성 대신 vendor 복사본으로 연결한다.
+	// is-plain-object는 npm 의존성 대신 테스트용 구현으로 연결한다.
 	const readmeRequire = createRequire(readmePath)
-	const vendored = { 'is-plain-object': path.join(__dirname, '..', 'vendor', 'is-plain-object', 'is-plain-object.mjs') }
+	const substitutes = { 'is-plain-object': path.join(__dirname, 'support', 'is-plain-object.js') }
 	function requireForReadme(id) {
-		return readmeRequire(vendored[id] || id)
+		return readmeRequire(substitutes[id] || id)
 	}
 	const run = new Function('require', '__readmeAssert__', code)
 	run(requireForReadme, readmeAssert)

@@ -1,4 +1,16 @@
-var defaultIsMergeableObject = require('./vendor/is-mergeable-object/index.js')
+// React element는 객체처럼 분해하면 깨지므로 병합 대상에서 제외한다(is-mergeable-object@1.1.1과 같은 판정).
+var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol.for ? Symbol.for('react.element') : 0xeac7
+
+// null이 아닌 객체 중 RegExp, Date, React element를 뺀 값만 재귀 병합한다.
+function defaultIsMergeableObject(value) {
+	if (!value || typeof value !== 'object') {
+		return false
+	}
+	var stringValue = Object.prototype.toString.call(value)
+	return stringValue !== '[object RegExp]'
+		&& stringValue !== '[object Date]'
+		&& value.$$typeof !== REACT_ELEMENT_TYPE
+}
 
 function emptyTarget(val) {
 	return Array.isArray(val) ? [] : {}

@@ -5,7 +5,7 @@
 - `engines.node`를 `>=24.18.0`으로 올린다. `dist/*`는 ES2015 문법으로 빌드한다(기존 ES5).
 - `package.json`에 `types: "index.d.ts"`를 명시한다.
 - 의존성 정리 (`npm audit` 0건)
-  - `is-mergeable-object`(1.1.1), `is-plain-object`(5.1.0)를 npm 의존성 대신 `vendor/`에 복사한다. `is-plain-object`는 테스트 전용이며 배포물에서 제외한다.
+  - `is-mergeable-object`, `is-plain-object` 의존성 제거. 기본 병합 판정은 `index.js`에 직접 구현하고(동작 동일), `isPlainObject`는 테스트 헬퍼(`test/support/`)로 둔다.
   - 빌드: rollup 1 + 플러그인 → tsdown. 출력 경로(`dist/cjs.js`, `dist/umd.js`)와 `module.exports = deepmerge` 형태는 유지한다.
   - 테스트: tape → `node:test`, jsmd → `test/readme.js`(acorn 기반), ts-node + TypeScript 2.2.2 → TypeScript 7 타입 검사
   - `size` 스크립트: uglify-js → rolldown minifier
