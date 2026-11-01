@@ -1,5 +1,5 @@
 {
-  "name": "deepmerge",
+  "name": "@cp949/deepmerge",
   "description": "A library for deep (recursive) merging of Javascript objects",
   "keywords": [
     "merge",
@@ -10,10 +10,13 @@
     "recursive"
   ],
   "version": "4.3.1",
-  "homepage": "https://github.com/TehShrike/deepmerge",
+  "homepage": "https://github.com/cp949/deepmerge#readme",
+  "bugs": {
+    "url": "https://github.com/cp949/deepmerge/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/TehShrike/deepmerge.git"
+    "url": "git+https://github.com/cp949/deepmerge.git"
   },
   "main": "dist/cjs.js",
   "types": "index.d.ts",
@@ -23,11 +26,15 @@
   "scripts": {
     "build": "tsdown",
     "test": "npm run build && node --test test/*.js && npm run test:typescript",
-    "test:typescript": "tsc -p test/tsconfig.json"
+    "test:typescript": "tsc -p test/tsconfig.json",
+    "prepublishOnly": "npm test"
   },
   "devDependencies": {
     "tsdown": "^0.23.4",
     "typescript": "^7.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "license": "MIT"
 }
